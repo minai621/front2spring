@@ -1,26 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {itemType} from "./type";
+import {List, Paper} from "@material-ui/core";
+import Todo from "./Component/Todo/molecule/Todo";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App: React.FC = () => {
+    const items: Array<itemType> = [
+        {id: "1", title: "hello Wold 1", done: true},
+        {id: "2", title: "hello Wold 2", done: false},
+    ];
+    return(
+        <>
+            {items.length > 0 && (
+                <Paper style={{ margin: 16 }}>
+                    <List>
+                        {items.map((item: itemType, index) =>
+                            <Todo key={index} {...item}/>
+                        )}
+                    </List>
+                </Paper>
+            )}
+        </>
+    )
+};
 
 export default App;

@@ -5,14 +5,14 @@ import Todo from "../atom/Todo";
 
 type TodoType = {
     todos: Item[];
-    onEdit: (props: Item, newTitle?: string) => void;
+    onEdit: (props: Item, newTitle?: string, newDone?: boolean) => void;
     onDelete: (id: string) => void;
 }
 
 const Todos: React.FC<TodoType> = ({todos, onEdit, onDelete}) => {
     return(
         <>
-            {todos.length > 0 && (
+            {todos && (
                 <Paper style={{ margin: 16 }}>
                     <List>
                         {todos.map((item: Item) =>

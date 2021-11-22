@@ -12,11 +12,13 @@ import {DeleteOutline} from "@material-ui/icons";
 
 type TodoProps = {
     item: Item;
-    onEdit: (props: Item, newTitle?: string) => void;
+    onEdit: (props: Item, newTitle?: string, newDone?: boolean) => void;
     onDelete: (id: string) => void;
 }
 
 const Todo: React.FC<TodoProps> = ( props ) => {
+    const [title, setTitle] = useState<string>(props.item.title);
+    const [done, setDone] = useState<boolean>(props.item.done);
     const [readOnly, setReadOnly] = useState<boolean>(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -28,11 +30,12 @@ const Todo: React.FC<TodoProps> = ( props ) => {
     const onEditSuccess = (e: React.KeyboardEvent) => {
         if(e.key === "Enter") {
             setReadOnly(true);
+            props.onEdit(props.item, title);
         }
     }
 
-    const onEditTodo = (e: ChangeEvent<HTMLInputElement>) => {
-        props.onEdit(props.item, e.target.value);
+    const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
+        setTitle(e.target.value);
     }
 
     const onDeleteTodo = () => {
@@ -42,8 +45,11 @@ const Todo: React.FC<TodoProps> = ( props ) => {
     return(
         <ListItem>
             <Checkbox
-                checked={props.item.done}
-                onChange={() => props.onEdit(props.item)}
+                checked={done}
+                onClick={() => {
+                    setDone(!done)
+                    props.onEdit(props.item, props.item.title ,done);
+                }}
                 disableRipple/>
             <ListItemText>
                 <InputBase
@@ -51,14 +57,14 @@ const Todo: React.FC<TodoProps> = ( props ) => {
                         "aria-label": "naked",
                         "aria-readonly": readOnly
                     }}
-                    onChange={onEditTodo}
+                    onChange={onChangeTitle}
                     onClick={onEditOff}
                     onKeyPress={onEditSuccess}
                     type="text"
                     ref={inputRef}
                     id={props.item.id}
                     name={props.item.id}
-                    value={props.item.title}
+                    value={title}
                     multiline={true}
                     fullWidth={true}
                 />

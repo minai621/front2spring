@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import {RecoilRoot} from "recoil";
+import AppRouter from "./AppRouter";
 
 ReactDOM.render(
     <RecoilRoot>
       <React.StrictMode>
-        <App />
+        <AppRouter />
       </React.StrictMode>
     </RecoilRoot>,
   document.getElementById('root')

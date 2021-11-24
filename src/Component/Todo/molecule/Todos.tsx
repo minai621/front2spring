@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {List, Paper} from "@material-ui/core";
 import {Item} from "../../../type";
 import Todo from "../atom/Todo";
@@ -10,9 +10,10 @@ type TodoType = {
 }
 
 const Todos: React.FC<TodoType> = ({todos, onEdit, onDelete}) => {
+
     return(
         <>
-            {todos && (
+            {
                 <Paper style={{ margin: 16 }}>
                     <List>
                         {todos.map((item: Item) =>
@@ -20,7 +21,7 @@ const Todos: React.FC<TodoType> = ({todos, onEdit, onDelete}) => {
                         )}
                     </List>
                 </Paper>
-            )}
+            }
         </>
     )
 };

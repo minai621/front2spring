@@ -10,6 +10,7 @@ const LoginContainer: React.FC = () => {
         const data = new FormData(event.target);
         const email = data.get("email");
         const password = data.get("password");
+        console.log(email);
         client.post('/auth/signin', {
             email, password
         }).then((response) => {
@@ -21,6 +22,7 @@ const LoginContainer: React.FC = () => {
                 }
         });
     }
+
     return(
         <Container component="main" maxWidth="xs" style={{ marginTop: "8%"}}>
             <LoginTypo />

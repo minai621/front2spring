@@ -2,28 +2,31 @@ import React, {useEffect} from 'react';
 import AddTodo from "../atom/AddTodo";
 import Todos from "../molecule/Todos";
 import {useRecoilState} from "recoil";
-import {TodoList} from "../../RecoilAtom/atom";
+import {Loading, TodoList} from "../../RecoilAtom/atom";
 import {Item} from "../../../type";
 import {client} from "../../../api-config";
+import AuthNav from "../molecule/AuthNav";
 
 const TodoCard: React.FC = () => {
-
+    const [loading, setLoading] = useRecoilState(Loading);
     const [todos, setTodos] = useRecoilState(TodoList);
     useEffect(() => {
             (async () => {
                 try {
                     const data = await client.get('todo').then((response) => {
+                        setLoading(true);
                         return response.data.data;
                     });
                     setTodos(data);
                 } catch (error) {
+                    setLoading(false);
                     window.location.href = "/login";
                 }
             })()
     }, [setTodos])
 
     const onAddItem = (title: string) => {
-        client.post('todo', {
+        client.post('/todo', {
             title
         }).then((response) => {
             const res = response.data.data;
@@ -33,7 +36,7 @@ const TodoCard: React.FC = () => {
     }
 
     const onDelete = (id: string) => {
-        client.delete('todo', {
+        client.delete('/todo', {
             data: {id}
         }).then((response) => setTodos(response.data));
     }
@@ -47,15 +50,27 @@ const TodoCard: React.FC = () => {
             newTodo.done = newDone;
         }
         console.log(newTodo);
-        client.put('todo', {
+        client.put('/todo', {
             ...newTodo
         });
     }
 
+
+    const onSignoutSubmit = () => {
+        localStorage.setItem("ACCESS_TOKEN", "null");
+        window.location.href = "/login";
+    }
+
+
     return(
         <>
+            <AuthNav onSignoutSubmit={onSignoutSubmit} />
             <AddTodo onAddItem={onAddItem}/>
-            <Todos todos={todos} onEdit={onEdit} onDelete={onDelete}/>
+            { loading ?
+                (<Todos todos={todos} onEdit={onEdit} onDelete={onDelete}/>)
+                :
+                (<h1>Loading...</h1>)
+            }
         </>
     )
 };

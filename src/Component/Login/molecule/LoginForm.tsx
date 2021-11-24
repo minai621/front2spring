@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Grid, TextField} from "@material-ui/core";
+import {Button, Grid, Link, TextField} from "@material-ui/core";
 
 type LoginFormType = {
     onLoginSubmit: (event: any) => void;
@@ -8,7 +8,7 @@ type LoginFormType = {
 const LoginForm: React.FC<LoginFormType> = ({ onLoginSubmit }) => {
     return(
         <form noValidate onSubmit={onLoginSubmit}>
-            {" "}
+            {""}
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <TextField
@@ -42,6 +42,14 @@ const LoginForm: React.FC<LoginFormType> = ({ onLoginSubmit }) => {
                     >
                         로그인
                     </Button>
+                </Grid>
+
+                <Grid container justifyContent="flex-end">
+                    <Grid item>
+                        <Link href="/signup" variant="body2">
+                            계정이 없습니까? 여기서 가입하세요.
+                        </Link>
+                    </Grid>
                 </Grid>
             </Grid>
         </form>
